@@ -51,6 +51,8 @@ function navigateTo(url) {
   var validUrl = require('valid-url');
   if (validUrl.isUri(url)){
     document.querySelector('webview').src = url;
+  }else if (validUrl.isUri("https://"+url)){
+    document.querySelector('webview').src = "https://"+url
   }else{
     document.querySelector('webview').src = `https://google.com/search?q=${encodeURIComponent(url)}`;
   }
@@ -91,40 +93,7 @@ function resetExitedState() {
   document.body.classList.remove('killed');
 }
 
-function handleFindUpdate(event) {
-  var findResults = document.querySelector('#find-results');
-  if (event.searchText == "") {
-    findResults.innerText = "";
-  } else {
-    findResults.innerText =
-        event.activeMatchOrdinal + " of " + event.numberOfMatches;
-  }
 
-  // Ensure that the find box does not obscure the active match.
-  if (event.finalUpdate && !event.canceled) {
-    var findBox = document.querySelector('#find-box');
-    findBox.style.left = "";
-    findBox.style.opacity = "";
-    var findBoxRect = findBox.getBoundingClientRect();
-    if (findBoxObscuresActiveMatch(findBoxRect, event.selectionRect)) {
-      // Move the find box out of the way if there is room on the screen, or
-      // make it semi-transparent otherwise.
-      var potentialLeft = event.selectionRect.left - findBoxRect.width - 10;
-      if (potentialLeft >= 5) {
-        findBox.style.left = potentialLeft + "px";
-      } else {
-        findBox.style.opacity = "0.5";
-      }
-    }
-  }
-}
-
-function findBoxObscuresActiveMatch(findBoxRect, matchRect) {
-  return findBoxRect.left < matchRect.left + matchRect.width &&
-      findBoxRect.right > matchRect.left &&
-      findBoxRect.top < matchRect.top + matchRect.height &&
-      findBoxRect.bottom > matchRect.top;
-}
 
 function handleKeyDown(event) {
   if (event.ctrlKey) {
