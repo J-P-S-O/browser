@@ -48,14 +48,12 @@ onload = function() {
 
 function navigateTo(url) {
   resetExitedState();
-  var validUrl = require('valid-url');
-  if (validUrl.isUri(url)){
-    document.querySelector('webview').src = url;
-  }else if (validUrl.isUri("https://"+url)){
-    document.querySelector('webview').src = "https://"+url
-  }else{
-    document.querySelector('webview').src = `https://google.com/search?q=${encodeURIComponent(url)}`;
+
+  if (!url.startsWith("https://") && !url.startsWith("http://") ){
+    document.querySelector('webview').src = "https://"+ url 
+    return 
   }
+document.querySelector('webview').src = url 
 
 }
 
@@ -148,14 +146,20 @@ function handleLoadStop(event) {
 }
 
 function handleLoadAbort(event) {
+  let view = document.querySelector("webview")
   console.log('LoadAbort');
   console.log('  url: ' + event.url);
   console.log('  isTopLevel: ' + event.isTopLevel);
   console.log('  type: ' + event.type);
+  if (!webview.src.startsWith("https://") && !webview.src.startsWith("http://") ){
+    webview.src = "https://" + webview.src 
+
+  }
 }
 
 function handleLoadRedirect(event) {
   resetExitedState();
   document.querySelector('#location').value = event.newUrl;
 }
+
 
