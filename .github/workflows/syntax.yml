@@ -1,4 +1,4 @@
-name: Less build
+name: Syntax
 
 on: [push,pull_request]
 
