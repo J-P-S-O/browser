@@ -9,5 +9,8 @@
     },
     "devDependencies": {
         "less": "^4.1.0"
+    },
+    "dependencies": {
+        "sync-request": "^6.1.0"
     }
 }
