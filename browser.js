@@ -48,7 +48,13 @@ onload = function() {
 
 function navigateTo(url) {
   resetExitedState();
-  document.querySelector('webview').src = url;
+  var validUrl = require('valid-url');
+  if (validUrl.isUri(url)){
+    document.querySelector('webview').src = url;
+  }else{
+    document.querySelector('webview').src = `https://google.com/search?q=${encodeURIComponent(url)}`;
+  }
+
 }
 
 function doLayout() {
