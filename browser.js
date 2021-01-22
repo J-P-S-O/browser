@@ -8,6 +8,10 @@ onload = function() {
   document.querySelector('#back').onclick = function() {
     webview.goBack();
   };
+  document.querySelector('#location-form').onsubmit = function(e) {
+  e.preventDefault();
+  navigateTo(document.querySelector('#location').value);
+};
 
   document.querySelector('#forward').onclick = function() {
     webview.goForward();
